@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  namespace: roboshop
+  #these are labels for replica set
+  labels:
+   project: roboshop
+   component: mongodb
+   tier: db
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+   #using this matching labels rs select pods to create/run
+     project: roboshop
+     component: mongodb
+     tier: db
+
+  # This is pod definition, pod is subset of replicaset
+  template:
+   metadata:
+    name: 
+    labels:
+      project: roboshop
+      tier: db
+      component: mongodb
+   spec:
+    containers:
+     - name: mongodb
+       image: "{{ .Values.deployment.imageName}}:{{ .Values.deployment.imageVersion }}"
